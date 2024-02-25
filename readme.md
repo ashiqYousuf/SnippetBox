@@ -5,7 +5,7 @@
 ### Servemux:
 1. Router is equivalent to *servemux* in go. Usually we have one *servemux* for our app containing all our routes.
 
-2. Request => Go Server (pass)=> servemux (dispatches)=> handler
+2. Request goes to the => Go Server (passes it to)  => *servemux's ServeHTTP() method*=> in-turn calls *handler's ServeHTTP() method*
 
 3. *servemux* treats "/" as catch-all.
 
@@ -13,7 +13,9 @@
 
 5. So, for the sake of security, itʼs generally a good idea to avoid *DefaultServeMux*.
 
-6. In Goʼs *servemux*, longer URL patterns always take precedence over shorter ones. Request URL paths are automatically sanitized. host-specific maths are precedenced than non-host specific patterns
+6. In Goʼs *servemux*, longer URL patterns always take precedence over shorter ones. Request URL paths are automatically sanitized. host-specific maths are precedenced than non-host specific patterns.
+
+7. All incoming HTTP requests are served in their own goroutine. Go Server is Concurrent!
 
 ### Project Structure
 1. The cmd directory will contain the application-specific code for the executable applications in the project. It scales nicely to add another app later on (cmd/cli).
