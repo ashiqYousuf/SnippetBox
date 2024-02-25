@@ -30,3 +30,8 @@
 2. It sanitizes all request paths by running them through the *path.Clean()* function before searching for a file.
 3. Range requests are fully supported. This is great if your application is serving large files and you want to support resumable downloads.
 4. The Last-Modified and If-Modified-Since headers are supported.
+
+### Dependency Injection
+1. Most web apps will have multiple dependencies that their handlers need to access (db conn, centralized err handlers...). How can we make any dependency available to our handlers? (i) use global vars (❌) (ii) inject dependencies (✅).
+For apps where all handlers are in the same package, a neat way to inject deps is to put them into a custom *application* struct, and then define your handler functions as methods against *application*.
+
