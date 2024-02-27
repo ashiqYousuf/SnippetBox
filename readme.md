@@ -57,3 +57,14 @@ For apps where all handlers are in the same package, a neat way to inject deps i
 3. The connection pool is intended to be long-lived.
 4. The sql.Open() function doesnʼt actually create any connections, all it does is initialize the pool for future use.
 5. You can think of a Database model as a service layer or a data access layer.
+
+### Queries
+1. DB.Query() is used for SELECT queries which return multiple rows.
+2. DB.QueryRow() is used for SELECT queries which return a single row.
+3. DB.Exec() is used for statements which donʼt return rows (like INSERT and DELETE).
+
+
+### Transactions
+1. Itʼs important to realize that calls to Exec(), Query() and QueryRow() can use any connection from the sql.DB pool. Even if you have two calls to Exec() immediately next to each other in your code, there is no guarantee that they will use the same database connection.
+2. Sometimes this isnʼt acceptable. For instance, if you lock a table with MySQLʼs LOCK TABLES command you must call UNLOCK TABLES on exactly the same connection to avoid a deadlock.
+3. To guarantee that the same connection is used you can wrap multiple statements in a transaction.
